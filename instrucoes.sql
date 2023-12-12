@@ -1,73 +1,66 @@
--- Criação da tabela de Alunos
-CREATE TABLE tb_aluno (
-    aluno_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    cpf TEXT NOT NULL UNIQUE,
-    rg TEXT NOT NULL,
-    data_nascimento DATE NOT NULL,
-    endereco TEXT NOT NULL
+´	-- criando tabela
+CREATE TABLE "tb_reserva" (
+	reserva_id INTEGER,
+	passageiro_id INTEGER NOT NULL,
+	voo_id INTEGER NOT NULL,
+	numeroAcento TEXT NOT NULL,
+	PRIMARY KEY("reserva_id" AUTOINCREMENT),
+	FOREIGN KEY("passageiro_id") REFERENCES tb_passageiro ("passageiro_id"),
+	FOREIGN KEY("voo_id") REFERENCES tb_voo (" voo_id")
+	
+);
+CREATE TABLE tb_passageiro(
+	passageiro_id INTEGER,
+	nome TEXT NOT NULL,
+	cpf TEXT NOT NULL,
+	dataNascimento TEXT NOT NULL,
+	telefone1 TEXT NOT NULL,
+	telefone2 TEXT NOT NULL,
+	rua TEXT NOT NULL,
+	cep TEXT,
+	complemento TEXT,
+	bairro TEXT NOT NULL,
+	cidade TEXT NOT NULL,
+	estado TEXT NOT NULL,
+	PRIMARY KEY("passageiro_id" AUTOINCREMENT)
 );
 
--- Criação da tabela de Cursos
-CREATE TABLE tb_curso (
-    curso_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    codigo_identificacao TEXT NOT NULL UNIQUE,
-    nome TEXT NOT NULL,
-    carga_horaria INTEGER NOT NULL
+CREATE TABLE tb_voo(
+	voo_id INTEGER,
+	origem TEXT NOT NULL,
+	destino TEXT NOT NULL,
+	rota TEXT NOT NULL,
+	especificacao TEXT NOT NULL,
+	modelo TEXT NOT NULL,
+	PRIMARY KEY ("voo_id" AUTOINCREMENT)
+	
 );
 
--- Criação da tabela de Professores
-CREATE TABLE tb_professor (
-    professor_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    numero_registro TEXT NOT NULL UNIQUE,
-    nome TEXT NOT NULL,
-    especialidade TEXT NOT NULL,
-    contato TEXT NOT NULL
-);
 
--- Criação da tabela de Matrículas
-CREATE TABLE tb_matricula (
-    matricula_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    aluno_id INTEGER,
-    curso_id INTEGER,
-    numero_matricula TEXT NOT NULL,
-    n1 REAL,
-    n2 REAL,
-    n3 REAL,
-    n4 REAL,
-    FOREIGN KEY(aluno_id) REFERENCES tb_aluno(aluno_id),
-    FOREIGN KEY(curso_id) REFERENCES tb_curso(curso_id)
-);
-
------------------------------------------------------------------------------------
---Inserindo dados
-INSERT INTO tb_aluno (nome, cpf, rg, data_nascimento, endereco)
+--populando
+INSERT INTO tb_passageiro ( nome, cpf, dataNascimento, telefone1,rua, cep, complemento,bairro,cidade, estado)
 VALUES
-('João Silva', '123.456.789-01', '1234567', '2000-01-01', 'Rua das Flores, 123'),
-('Maria Oliveira', '987.654.321-02', '7654321', '1999-02-15', 'Avenida Principal, 456'),
-('Carlos Pereira', '111.222.333-03', '1122333', '1998-03-10', 'Rua das Árvores, 789'),
-('Ana Souza', '444.555.666-04', '4455666', '1997-04-05', 'Travessa do Lago, 321'),
-('Pedro Santos', '777.888.999-05', '7788999', '1996-05-20', 'Avenida dos Ventos, 654');
+    ('Pedro Almeida','11111111111','26/12/2006', '7777-8888', 'Rua D', '1010', 'Apto 5', 'Jardim Primavera', 'Porto Alegre', 'RS'),
+    ('Ana Souza','22222222222','27/12/2006' ,'3333-2222', 'Rua E', '222', 'Casa 7', 'Centro', 'Curitiba', 'PR'),
+    ('Carlos Lima', '3333333333','01/11/2005','5555-4444', 'Rua F', '4567', 'Sala 10', 'Bairro Novo', 'Belo Horizonte', 'MG'),
+    ('Mariana Costa','44444444444','06/09/2006' ,'2222-1111', 'Rua G', '7890', 'Casa 1', 'Vila Feliz', 'Rio de Janeiro', 'RJ'),
+    ('Lucas Ferreira','5555555555','01/08/2006', '4444-3333', 'Rua H', '6543', 'Apto 3', 'Bairro Novo', 'Belo Horizonte', 'MG');
+	
 
-INSERT INTO tb_curso (codigo_identificacao, nome, carga_horaria)
+	
+INSERT INTO tb_voo (origem, destino, rota, especificacao, modelo)
 VALUES
-('INF101', 'Informática', 120),
-('ING102', 'Inglês', 80),
-('ADM103', 'Administração', 100),
-('MAT104', 'Matemática', 90),
-('ART105', 'Arte', 60);
+('Nova York', 'Los Angeles', 'NYC-LAX', 'Voo doméstico', 'Boeing 737'),
+('Paris', 'Tóquio', 'CDG-NRT', 'Voo internacional', 'Airbus A380'),
+('Londres', 'Sydney', 'LHR-SYD', 'Voo internacional', 'Boeing 777'),
+('Pequim', 'Roma', 'PEK-FCO', 'Voo internacional', 'Airbus A330'),
+('Dubai', 'Cidade do México', 'DXB-MEX', 'Voo internacional', 'Boeing 787');
 
--- Inserção de dados na tabela tb_professor
-INSERT INTO tb_professor (numero_registro, nome, especialidade, contato)
-VALUES
-('P001', 'Prof. Carlos', 'Informática', '123-4567'),
-('P002', 'Prof. Ana', 'Inglês', '987-6543'),
-('P003', 'Prof. Maria', 'Administração', '111-2222'),
-('P004', 'Prof. João', 'Matemática', '555-1234'),
-('P005', 'Prof. Laura', 'Arte', '999-8888');
 
-INSERT INTO tb_matricula (aluno_id, curso_id, numero_matricula, n1, n2, n3, n4)
+INSERT INTO tb_reserva (passageiro_id, voo_id, numeroAcento)
 VALUES
-(1, 1, 'M101', 8.5, 7.5, 9.0, 8.0),
-(2, 2, 'M102', 9.0, 8.0, 9.5, 8.5),
-(3, 3, 'M103', 7.5, 8.0, 7.0, 8.0);
+(1, 1, 'A1'),
+(2, 2, 'B3'),
+(3, 3, 'C5'),
+(4, 4, 'D7'),
+(5, 5, 'E9');
