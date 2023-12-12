@@ -1,0 +1,30 @@
+
+SELECT
+	tb_usuario.nome,
+	tb_livro.titulo,
+	tb_livro.autor,
+	tb_livro.editora,
+	tb_emprestimo.data_emprestimo AS emprestimo,
+	tb_emprestimo.data_devolucao AS devolucao
+FROM
+	tb_emprestimo
+INNER JOIN
+	tb_usuario ON tb_usuario.matricula = tb_emprestimo.matricula
+INNER JOIN
+	tb_livro ON tb_livro.codigo_catalogacao = tb_emprestimo.codigo_catalogacao;
+
+
+
+SELECT
+	tb_usuario.nome,
+	tb_livro.titulo,
+	tb_livro.autor,
+	tb_livro.editora,
+	tb_emprestimo.data_emprestimo AS emprestimo,
+	tb_emprestimo.data_devolucao AS devolucao
+FROM
+	tb_emprestimo
+INNER JOIN
+	tb_usuario ON tb_usuario.matricula = tb_emprestimo.matricula
+INNER JOIN
+	tb_livro ON tb_livro.codigo_catalogacao = tb_emprestimo.codigo_catalogacao;
